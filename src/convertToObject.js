@@ -7,16 +7,18 @@
  */
 
 function convertToObject(sourceString) {
-  const resultStrs = sourceString.split('');
-  const resultArr = resultStrs.map((item, index) => {
-    return {
-      key: index,
-      value: item
-    };
+   const styleObject = {};
+
+  sourceString.split(";").forEach(declaration => {
+    const [property, value] = declaration.split(":").map(part => part && part.trim());
+    if (property && value) {
+      // Convert kebab-case to camelCase
+      const camelCaseProp = property.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+      styleObject[camelCaseProp] = value;
+    }
   });
-  
-  return  resultArr;
-  
+
+  return styleObject;
  
 }
 
